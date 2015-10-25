@@ -1,7 +1,0 @@
-#surefire
-#Sun Oct 25 17:44:19 EET 2015
-maven.ext.class.path=C\:\\Program Files\\NetBeans 8.0.2\\java\\maven-nblib\\netbeans-eventspy.jar
-user.dir=C\:\\Java\\Autocomplete
-file.encoding=UTF-8
-localRepository=C\:\\Users\\1\\.m2\\repository
-basedir=C\:\\Java\\Autocomplete
