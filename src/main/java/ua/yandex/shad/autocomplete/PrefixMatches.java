@@ -1,8 +1,7 @@
-
 package ua.yandex.shad.autocomplete;
 
-import java.util.*;
-
+import ua.yandex.shad.collections.DynStringArray;
+import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Tuple;
 import ua.yandex.shad.tries.Trie;
 
@@ -12,9 +11,9 @@ public class PrefixMatches {
     private static final int MIN_SIZE = 3;
     private static final int DEFAULT_K = 3;
     
-    private Trie trie;
+    private Trie trie = new RWayTrie();
 
-    public int load(String... strings) {
+    public int load(String ... strings) {
         for (String string : strings) {
             String[] temp = string.split("\\s+");
             for (String str : temp) {
@@ -34,28 +33,31 @@ public class PrefixMatches {
         return trie.delete(word);
     }
 
-    public Iterable<String> wordsWithPrefix(String pref) {
+    public DynStringArray wordsWithPrefix(String pref) {
         return wordsWithPrefix(pref, DEFAULT_K);
     }
 
-    public Iterable<String> wordsWithPrefix(String pref, int k) {
+    public DynStringArray wordsWithPrefix(String pref, int k) {
         if (pref.length() < MIN_SIZE) {
             throw new IllegalArgumentException();
         }
         Iterable<String> strings = trie.wordsWithPrefix(pref);
         
         int maxSize = pref.length() + k;
-        Queue<String> q = new LinkedList<String>();
+        DynStringArray q = new DynStringArray();
         for (String str : strings) {
-            if (str.length() <= maxSize) {
+            if (str.length() < maxSize) {
                 q.add(str);
             }
         }
-        
         return q;
     }
 
     public int size() {
         return trie.size();
+    }
+    
+    public Trie getTrie() {
+        return trie;
     }
 }

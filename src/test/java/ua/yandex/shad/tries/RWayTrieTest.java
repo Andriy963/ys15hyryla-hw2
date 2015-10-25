@@ -22,7 +22,6 @@ public class RWayTrieTest {
     @Mock private Tuple finishMock;
     @Mock private Tuple fishkaMock;
     @Mock private Tuple hereMock;
-    @Mock private Tuple hondaMock;
     
     private RWayTrie trie;
     private Node root;
@@ -75,8 +74,6 @@ public class RWayTrieTest {
         when(fishkaMock.getWeight()).thenReturn(6);
         when(hereMock.getTerm()).thenReturn("here");
         when(hereMock.getWeight()).thenReturn(4);
-        when(hondaMock.getTerm()).thenReturn("honda");
-        when(hondaMock.getWeight()).thenReturn(5);
     }
     
     
@@ -295,4 +292,5 @@ public class RWayTrieTest {
         
         Assert.assertArrayEquals(result, expectRes);
     }
+    
 }

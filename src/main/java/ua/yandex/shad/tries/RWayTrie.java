@@ -37,7 +37,8 @@ public class RWayTrie implements Trie {
         root = add(root, t, 0);
     }
     
-    private Node add(Node x, Tuple t, int d) {
+    private Node add(Node xx, Tuple t, int d) {
+        Node x = xx;
         if (x == null) { x = new Node(); }
         if (d == t.getWeight()) {
             x.val = t.getWeight();
@@ -52,7 +53,12 @@ public class RWayTrie implements Trie {
     @Override
     public boolean contains(String word) {
         Node res = contains(root, word, 0);
-        return res != null;
+        if (res == null) {
+            return false;
+        }
+        else {
+            return res.val != null;
+        }
     }
     
     private Node contains(Node x, String word, int d) {
