@@ -1,32 +1,48 @@
 package ua.yandex.shad.tries;
 
 import java.util.*;
-import java.io.*;
+
+import ua.yandex.shad.collections.DynStringArray;
 
 public class RWayTrie implements Trie {
 
     private static final int ALPHABET = 26;
     private static final char FIRSTCHAR = 'a';
-    private Node root;
+    private Node root = new Node();
     
-    private static class Node {
+    static class Node {
         private Object val;
         private Node[] next = new Node[ALPHABET];
+        
+        public void setValue(int value) {
+            this.val = value;
+        }
+        
+        public void setNext(char c, Node newNode) {
+            next[c - FIRSTCHAR] = newNode;
+        }
+        
+        public Object getValue() {
+            return val;
+        }
+        
+        public Node getNext(char c) {
+            return next[c - FIRSTCHAR];
+        }
     }
     
     @Override
     public void add(Tuple t) {
         root = add(root, t, 0);
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
     private Node add(Node x, Tuple t, int d) {
         if (x == null) { x = new Node(); }
-        if (d == t.term.length()) {
-            x.val = t.weight;
+        if (d == t.getWeight()) {
+            x.val = t.getWeight();
             return x;
         }
-        char c = t.term.charAt(d);
+        char c = t.getTerm().charAt(d);
         c = (char) (c - FIRSTCHAR);
         x.next[c] = add(x.next[c], t, d + 1);
         return x;
@@ -34,9 +50,8 @@ public class RWayTrie implements Trie {
 
     @Override
     public boolean contains(String word) {
-        root = contains(root, word, 0);
-        if (root == null) { return false; }
-        else { return true; }
+        Node res = contains(root, word, 0);
+        return res != null;
     }
     
     private Node contains(Node x, String word, int d) {
@@ -49,9 +64,11 @@ public class RWayTrie implements Trie {
 
     @Override
     public boolean delete(String word) {
+        if (!contains(word)) {
+            return false;
+        }
         root = delete(root, word, 0);
-        if (root == null) { return false; }
-        else { return true; }
+        return root != null;
     }
     
     private Node delete(Node x, String word, int d) {
@@ -77,24 +94,43 @@ public class RWayTrie implements Trie {
 
     
     @Override
-    public Iterable<String> words() {
+    public DynStringArray words() {
         return wordsWithPrefix("");
     }
 
     @Override
-    public Iterable<String> wordsWithPrefix(String s) {
-        Queue<String> q = new LinkedList<String>();
-        collect(contains(root, s, 0), s, q);
-        return q;
+    public DynStringArray wordsWithPrefix(String s) {
+        DynStringArray dyn = new DynStringArray();
+        bfs(contains(root, s, 0), s, dyn);
+        return dyn;
     }
     
-    private void collect(Node x, String s, Queue<String> q) {
-        if (x == null) { return; }
-        if (x.val != null) {
-            q.add(s);
-        }
-        for (char c = 0; c < ALPHABET; c++) {
-            collect(x.next[c], s + c, q);
+    private void bfs(Node x, String s, DynStringArray dyn) {
+        
+        Queue<Node> q = new LinkedList<>();
+        Queue<String> strings = new LinkedList<>();
+        q.add(x);
+        strings.add(s);
+        
+        Node curNode;
+        String curString;
+        
+        while (!q.isEmpty()) {
+            curNode = q.element();
+            q.remove();
+            curString = strings.element();
+            strings.remove();
+            if (curNode == null) {
+                continue;
+            }
+            if (curNode.val != null) {
+                dyn.add(curString);
+            }
+            for (char c = 0; c < ALPHABET; c++) {
+                q.add(curNode.next[c]);
+                char ch = (char)(c + FIRSTCHAR);
+                strings.add(curString + ch);
+            }
         }
     }
 
@@ -113,5 +149,9 @@ public class RWayTrie implements Trie {
             cnt += size(x.next[c]);
         }
         return cnt;
+    }
+    
+    Node getRoot() {
+        return root;
     }
 }
