@@ -1,5 +1,7 @@
 package ua.yandex.shad.collections;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -103,5 +105,74 @@ public class DynStringArrayTest {
         String[] result = dynStr.getArrayWords();
         
         Assert.assertArrayEquals(expectRes, result);
+    }
+    
+    @Test
+    public void testIteratorHasNextFalseResult() {
+        Iterator<String> iterator = dynStr.iterator();
+        
+        boolean result = iterator.hasNext();
+        boolean expectRes = false;
+        
+        assertEquals(result, expectRes);
+    }
+    
+    @Test
+    public void testIteratorHasNextTrueResult() {
+        String[] strings = {"dsfgdfa"};
+        
+        dynStr = new DynStringArray(strings);
+        Iterator<String> iterator = dynStr.iterator();
+        
+        boolean result = iterator.hasNext();
+        boolean expectRes = true;
+        
+        assertEquals(result, expectRes);
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void testIteratorNextNoNextElement() {
+        Iterator<String> iterator = dynStr.iterator();
+        
+        iterator.next();
+    }
+    
+    @Test(expected = NoSuchElementException.class)
+    public void testIteratorNextNoSecondNextElement() {
+        String[] strings = {"fish"};
+        
+        dynStr = new DynStringArray(strings);
+        Iterator<String> iterator = dynStr.iterator();
+        
+        iterator.next();
+        iterator.next();
+    }
+    
+    @Test
+    public void testIteratorNextOneWordNext() {
+        String[] strings = {"dsfgdfa"};
+        
+        dynStr = new DynStringArray(strings);
+        Iterator<String> iterator = dynStr.iterator();
+        
+        String result = iterator.next();
+        String expectRes = "dsfgdfa";
+        
+        assertEquals(result, expectRes);
+    }
+    
+    @Test
+    public void testIteratorNextThirdWord() {
+        String[] strings = {"fish", "fishka", "finish", "honda", "gys"};
+        
+        dynStr = new DynStringArray(strings);
+        Iterator<String> iterator = dynStr.iterator();
+        
+        iterator.next();
+        iterator.next();
+        String result = iterator.next();
+        String expectRes = "finish";
+        
+        assertEquals(result, expectRes);
     }
 }

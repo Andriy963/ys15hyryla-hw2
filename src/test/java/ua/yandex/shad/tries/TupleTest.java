@@ -7,6 +7,11 @@ import org.junit.Test;
 public class TupleTest {
     
     @Test
+    public void testTupleConstractorNoArguments() {
+        Tuple t = new Tuple();
+    }
+    
+    @Test
     public void testTupleConstractor() {
         String term = "a";
         int weight = 1;

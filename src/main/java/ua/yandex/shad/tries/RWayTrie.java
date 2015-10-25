@@ -1,6 +1,7 @@
 package ua.yandex.shad.tries;
 
-import java.util.*;
+import java.util.Queue;
+import java.util.LinkedList;
 
 import ua.yandex.shad.collections.DynStringArray;
 
@@ -72,7 +73,6 @@ public class RWayTrie implements Trie {
     }
     
     private Node delete(Node x, String word, int d) {
-        if (x == null) { return null; }
         if (d == word.length()) {
             x.val = null;
         }
@@ -128,7 +128,7 @@ public class RWayTrie implements Trie {
             }
             for (char c = 0; c < ALPHABET; c++) {
                 q.add(curNode.next[c]);
-                char ch = (char)(c + FIRSTCHAR);
+                char ch = (char) (c + FIRSTCHAR);
                 strings.add(curString + ch);
             }
         }
