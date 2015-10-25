@@ -142,6 +142,17 @@ public class PrefixMatchesTest {
     }
     
     @Test
+    public void testLoadStringOfStrings() {
+        String[] str = {"fish fin  finish", "gf", "parrot", "h here"};
+        
+        
+        int result = prefMatch.load(str);
+        int expectRes = 6;
+        
+        assertEquals(result, expectRes);
+    }
+    
+    @Test
     public void testContainsExitingWord() {
         String str = "fish";
         
