@@ -1,6 +1,5 @@
 package ua.yandex.shad.autocomplete;
 
-import java.util.Iterator;
 import ua.yandex.shad.collections.DynStringArray;
 import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Tuple;

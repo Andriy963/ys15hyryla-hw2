@@ -10,19 +10,15 @@ public class MyQueue<Item> {
     
     private Node first;
     private Node last;
-    private int N;
+    private int n;
     
     private class Node {
-        Item item;
-        Node next;
+        private Item item;
+        private Node next;
     }
     
     public boolean isEmpty() {
         return first == null;
-    }
-    
-    public int size() {
-        return N;
     }
     
     public void add(Item item) {
@@ -36,7 +32,7 @@ public class MyQueue<Item> {
         else {
             oldLast.next = last;
         }
-        N++;
+        n++;
     }
     
     public Item remove() {
@@ -45,7 +41,7 @@ public class MyQueue<Item> {
         if (isEmpty()) {
             last = null;
         }
-        N--;
+        n--;
         return item;
     }
 }

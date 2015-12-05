@@ -100,6 +100,18 @@ public class TupleTest {
     }
     
     @Test
+    public void testEqualsWithNullTerm() {
+        String term = null;
+        int weight = 1;
+        Tuple t = new Tuple(term, weight);
+        
+        boolean res = t.equals(term);
+        boolean expectRes = false;
+        
+        assertEquals(res, expectRes);
+    }
+    
+    @Test
     public void testHashCode() {
         String term = "a";
         int weight = 1;
