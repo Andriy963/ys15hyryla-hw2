@@ -1,5 +1,6 @@
 package ua.yandex.shad.autocomplete;
 
+import java.util.Iterator;
 import ua.yandex.shad.collections.DynStringArray;
 import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Tuple;
@@ -46,12 +47,16 @@ public class PrefixMatches {
             throw new IllegalArgumentException();
         }
         Iterable<String> strings = trie.wordsWithPrefix(pref);
+        Iterator<String> iterator = strings.iterator();
         
         int maxSize = pref.length() + k;
         DynStringArray q = new DynStringArray();
-        for (String str : strings) {
-            if (str.length() < maxSize) {
-                q.add(str);
+        String current;
+        
+        while (iterator.hasNext()) {
+            current = iterator.next();
+            if (current.length() < maxSize) {
+                q.add(current);
             }
         }
         return q;
