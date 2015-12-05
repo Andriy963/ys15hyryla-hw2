@@ -1,5 +1,6 @@
 package ua.yandex.shad.autocomplete;
 
+import java.util.Iterator;
 import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -9,7 +10,6 @@ import static org.mockito.Mockito.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import ua.yandex.shad.collections.DynStringArray;
 
 import ua.yandex.shad.tries.Tuple;
 
@@ -289,22 +289,38 @@ public class PrefixMatchesTest {
     public void testWordsWithPrefixOneWord() {
         String word = "fis";
         int k = 2;
-        DynStringArray d = prefMatch.wordsWithPrefix(word, k);
-        String[] result = d.getArrayWords();
-        String[] expectRes = {"fish"};
+        Iterable<String> d = prefMatch.wordsWithPrefix(word, k);
+        Iterator<String> iterator = d.iterator();
         
-        Assert.assertArrayEquals(result, expectRes);
+        String[] expectRes = {"fish"};
+        int iter = 0;
+        boolean equalArrays = true;
+        while(iterator.hasNext()) {
+            if (!expectRes[iter++].equals(iterator.next())) {
+                equalArrays = false;
+            }
+        }   
+        
+        assertTrue(equalArrays && (iter == 1));
     }
     
     @Test
     public void testWordsWithPrefixDefaultK() {
         String word = "fish";
         
-        DynStringArray d = prefMatch.wordsWithPrefix(word);
-        String[] result = d.getArrayWords();
+        Iterable<String> d = prefMatch.wordsWithPrefix(word);
+        Iterator<String> iterator = d.iterator();
         String[] expectRes = {"fish", "fishka"};
         
-        Assert.assertArrayEquals(result, expectRes);
+        int iter = 0;
+        boolean equalArrays = true;
+        while(iterator.hasNext()) {
+            if (!expectRes[iter++].equals(iterator.next())) {
+                equalArrays = false;
+            }
+        }   
+        
+        assertTrue(equalArrays && (iter == 2));
     }
     
     @Test
@@ -315,11 +331,19 @@ public class PrefixMatchesTest {
         prefMatch.load("fishechka");
         String word = "fish";
         
-        DynStringArray d = prefMatch.wordsWithPrefix(word);
-        String[] result = d.getArrayWords();
+        Iterable<String> d = prefMatch.wordsWithPrefix(word);
+        Iterator<String> iterator = d.iterator();
         String[] expectRes = {"fish", "fisha", "fishka"};
         
-        Assert.assertArrayEquals(result, expectRes);
+        int iter = 0;
+        boolean equalArrays = true;
+        while(iterator.hasNext()) {
+            if (!expectRes[iter++].equals(iterator.next())) {
+                equalArrays = false;
+            }
+        }   
+        
+        assertTrue(equalArrays && (iter == 3));
     }
     
     @Test
@@ -331,10 +355,43 @@ public class PrefixMatchesTest {
         String word = "fish";
         int k = 7;
         
-        DynStringArray d = prefMatch.wordsWithPrefix(word, k);
-        String[] result = d.getArrayWords();
+        Iterable<String> d = prefMatch.wordsWithPrefix(word, k);
+        Iterator<String> iterator = d.iterator();
         String[] expectRes = {"fish", "fisha", "fishka", "fishaka", "fishakjd", "fishechka"};
         
-        Assert.assertArrayEquals(result, expectRes);
+        int iter = 0;
+        boolean equalArrays = true;
+        while(iterator.hasNext()) {
+            if (!expectRes[iter++].equals(iterator.next())) {
+                equalArrays = false;
+            }
+        }   
+        
+        assertTrue(equalArrays && (iter == 6));
+    }
+    
+    @Test
+    public void testWordsWithPrefixWithLongWordsAndSmallK() {
+        prefMatch.load("fisha");
+        prefMatch.load("fishakjd");
+        prefMatch.load("fishaka");
+        prefMatch.load("fishechka");
+        String word = "fish";
+        int k = 2;
+        
+        
+        Iterable<String> d = prefMatch.wordsWithPrefix(word, k);
+        Iterator<String> iterator = d.iterator();
+        String[] expectRes = {"fish", "fisha"};
+        
+        int iter = 0;
+        boolean equalArrays = true;
+        while(iterator.hasNext()) {
+            if (!expectRes[iter++].equals(iterator.next())) {
+                equalArrays = false;
+            }
+        }   
+        
+        assertTrue(equalArrays && (iter == 2));
     }
 }

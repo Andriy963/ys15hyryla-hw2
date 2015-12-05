@@ -3,6 +3,11 @@ package ua.yandex.shad.collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ *
+ * @author Andrii Hyryla
+ */
+
 public class DynStringArray implements Iterable<String> {
 
     private static final int MIN_SIZE = 5;
@@ -62,6 +67,7 @@ public class DynStringArray implements Iterable<String> {
     }
     
     
+    @Override
     public Iterator<String> iterator() {
         return new DynStringArrayIterator();
     }
@@ -70,10 +76,12 @@ public class DynStringArray implements Iterable<String> {
         
         private int size = 0;
         
+        @Override
         public boolean hasNext() {
             return size < actualSize;
         }
         
+        @Override
         public String next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -82,3 +90,4 @@ public class DynStringArray implements Iterable<String> {
         }
     }
 }
+

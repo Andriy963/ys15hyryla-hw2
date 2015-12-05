@@ -1,10 +1,15 @@
 package ua.yandex.shad.autocomplete;
 
+import java.util.Iterator;
 import ua.yandex.shad.collections.DynStringArray;
 import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Tuple;
 import ua.yandex.shad.tries.Trie;
 
+/**
+ *
+ * @author Andrii Hyryla
+ */
 
 public class PrefixMatches {
 
@@ -33,11 +38,11 @@ public class PrefixMatches {
         return trie.delete(word);
     }
 
-    public DynStringArray wordsWithPrefix(String pref) {
+    public Iterable<String> wordsWithPrefix(String pref) {
         return wordsWithPrefix(pref, DEFAULT_K);
     }
 
-    public DynStringArray wordsWithPrefix(String pref, int k) {
+    public Iterable<String> wordsWithPrefix(String pref, int k) {
         if (pref.length() < MIN_SIZE) {
             throw new IllegalArgumentException();
         }

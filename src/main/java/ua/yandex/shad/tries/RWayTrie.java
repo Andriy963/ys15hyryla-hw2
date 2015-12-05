@@ -1,9 +1,12 @@
 package ua.yandex.shad.tries;
 
-import java.util.Queue;
-import java.util.LinkedList;
-
 import ua.yandex.shad.collections.DynStringArray;
+import ua.yandex.shad.collections.MyQueue;
+
+/**
+ *
+ * @author Andrii Hyryla
+ */
 
 public class RWayTrie implements Trie {
 
@@ -11,25 +14,9 @@ public class RWayTrie implements Trie {
     private static final char FIRSTCHAR = 'a';
     private Node root = new Node();
     
-    static class Node {
+    private static class Node {
         private Object val;
         private Node[] next = new Node[ALPHABET];
-        
-        public void setValue(int value) {
-            this.val = value;
-        }
-        
-        public void setNext(char c, Node newNode) {
-            next[c - FIRSTCHAR] = newNode;
-        }
-        
-        public Object getValue() {
-            return val;
-        }
-        
-        public Node getNext(char c) {
-            return next[c - FIRSTCHAR];
-        }
     }
     
     @Override
@@ -39,7 +26,9 @@ public class RWayTrie implements Trie {
     
     private Node add(Node xx, Tuple t, int d) {
         Node x = xx;
-        if (x == null) { x = new Node(); }
+        if (x == null) { 
+            x = new Node();
+        }
         if (d == t.getWeight()) {
             x.val = t.getWeight();
             return x;
@@ -68,14 +57,16 @@ public class RWayTrie implements Trie {
         c = (char) (c - FIRSTCHAR);
         return contains(x.next[c], word, d+1);
     }
-
+    
     @Override
     public boolean delete(String word) {
         if (!contains(word)) {
             return false;
         }
+        int sizeTo = size();
         root = delete(root, word, 0);
-        return root != null;
+        int sizeAfter = size();
+        return sizeTo != sizeAfter;
     }
     
     private Node delete(Node x, String word, int d) {
@@ -98,23 +89,22 @@ public class RWayTrie implements Trie {
         return null;
     }
 
-    
     @Override
-    public DynStringArray words() {
+    public Iterable<String> words() {
         return wordsWithPrefix("");
     }
 
     @Override
-    public DynStringArray wordsWithPrefix(String s) {
+    public Iterable<String> wordsWithPrefix(String s) {
         DynStringArray dyn = new DynStringArray();
         bfs(contains(root, s, 0), s, dyn);
         return dyn;
     }
-    
+
     private void bfs(Node x, String s, DynStringArray dyn) {
         
-        Queue<Node> q = new LinkedList<>();
-        Queue<String> strings = new LinkedList<>();
+        MyQueue<Node> q = new MyQueue<>();
+        MyQueue<String> strings = new MyQueue<>();
         q.add(x);
         strings.add(s);
         
@@ -122,10 +112,8 @@ public class RWayTrie implements Trie {
         String curString;
         
         while (!q.isEmpty()) {
-            curNode = q.element();
-            q.remove();
-            curString = strings.element();
-            strings.remove();
+            curNode = q.remove();
+            curString = strings.remove();
             if (curNode == null) {
                 continue;
             }
@@ -139,7 +127,7 @@ public class RWayTrie implements Trie {
             }
         }
     }
-
+    
     @Override
     public int size() {
         return size(root);
@@ -156,8 +144,5 @@ public class RWayTrie implements Trie {
         }
         return cnt;
     }
-    
-    Node getRoot() {
-        return root;
-    }
+
 }

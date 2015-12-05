@@ -2,15 +2,15 @@ package ua.yandex.shad.tries;
 
 public interface Trie {
 
-    void add(Tuple word);
+    public void add(Tuple word);
 
-    boolean contains(String word);
+    public boolean contains(String word);
 
-    boolean delete(String word);
+    public boolean delete(String word);
 
-    Iterable<String> words();
+    public Iterable<String> words();
 
-    Iterable<String> wordsWithPrefix(String pref);
+    public Iterable<String> wordsWithPrefix(String pref);
     
-    int size();
+    public int size();
 }

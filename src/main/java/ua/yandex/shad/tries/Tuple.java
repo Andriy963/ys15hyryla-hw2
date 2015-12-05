@@ -31,6 +31,10 @@ public class Tuple {
         }
         
         Tuple testOb = (Tuple) equal;
+        
+        if (testOb.term == null) {
+            return false;
+        }
         return this.term.equals(testOb.term) && this.weight == testOb.weight;
     }
     
