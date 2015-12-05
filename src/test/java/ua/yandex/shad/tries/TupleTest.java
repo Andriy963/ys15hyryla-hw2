@@ -105,7 +105,7 @@ public class TupleTest {
         int weight = 1;
         Tuple t = new Tuple(term, weight);
         
-        boolean res = t.equals(term);
+        boolean res = t.equals(t);
         boolean expectRes = false;
         
         assertEquals(res, expectRes);

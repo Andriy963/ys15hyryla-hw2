@@ -65,8 +65,7 @@ public class RWayTrie implements Trie {
         }
         int sizeTo = size();
         root = delete(root, word, 0);
-        int sizeAfter = size();
-        return (sizeTo - 1) == sizeAfter;
+        return size() == sizeTo - 1;
     }
     
     private Node delete(Node x, String word, int d) {

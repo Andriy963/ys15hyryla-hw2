@@ -32,7 +32,7 @@ public class MyQueue<Item> {
         else {
             oldLast.next = last;
         }
-        n++;
+        this.n++;
     }
     
     public Item remove() {
@@ -41,7 +41,7 @@ public class MyQueue<Item> {
         if (isEmpty()) {
             last = null;
         }
-        n--;
+        this.n--;
         return item;
     }
 }
