@@ -288,7 +288,7 @@ public class PrefixMatchesTest {
     @Test
     public void testWordsWithPrefixOneWord() {
         String word = "fis";
-        int k = 2;
+        int k = 1;
         Iterable<String> d = prefMatch.wordsWithPrefix(word, k);
         Iterator<String> iterator = d.iterator();
         
