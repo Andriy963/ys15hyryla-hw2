@@ -2,7 +2,6 @@ package ua.yandex.shad.autocomplete;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import ua.yandex.shad.collections.DynStringArray;
 import ua.yandex.shad.tries.RWayTrie;
 import ua.yandex.shad.tries.Tuple;
 import ua.yandex.shad.tries.Trie;
@@ -64,8 +63,8 @@ public class PrefixMatches {
             return iterator;
         }
 
-        public void setIterator(PartIterator iterator) {
-            this.iterator = iterator;
+        public void setIterator(PartIterator itera) {
+            this.iterator = itera;
         }
     }
 
