@@ -46,29 +46,13 @@ public class PrefixMatches {
         if (pref.length() < MIN_SIZE) {
             throw new IllegalArgumentException();
         }
-
-        /*Iterable<String> strings = trie.wordsWithPrefix(pref);
-         Iterator<String> iterator = strings.iterator();
-
-         int maxSize = pref.length() + k;
-         DynStringArray q = new DynStringArray();
-         String current;
-
-         while (iterator.hasNext()) {
-         current = iterator.next();
-         if (current.length() < maxSize) {
-         q.add(current);
-         }
-         }
         
-         return q;*/
         Iterator<String> iterator = trie.wordsWithPrefix(pref).iterator();
         PartIterable words = new PartIterable();
         PartIterator iter = new PartIterator(iterator, k);
         words.setIterator(iter);
 
         return words;
-        //return new PartIterable(trie.wordsWithPrefix(pref), k);
     }
 
     private static class PartIterable implements Iterable<String> {
